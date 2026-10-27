@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 全局基础样式 */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* 卡片 hover：Y 轴轻微上移 + 阴影柔和放大 */
+  .card-hover {
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.09);
+  }
+  .dark .card-hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  }
+  .dark .card-hover:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  /* 导航栏滚动后的毛玻璃背景 */
+  .nav-blur {
+    background-color: rgba(247, 245, 240, 0.72);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.06);
+  }
+  .dark .nav-blur {
+    background-color: rgba(31, 36, 41, 0.72);
+  }
+
+  /* 博客正文排版 */
+  .blog-content {
+    line-height: 1.75;
+  }
+  .blog-content > * + * {
+    margin-top: 1em;
+  }
+  .blog-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+  }
+  .blog-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  .blog-content p {
+    margin-bottom: 1em;
+  }
+  .blog-content a {
+    color: #446688;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .dark .blog-content a {
+    color: #68b8b8;
+  }
+  .blog-content ul,
+  .blog-content ol {
+    padding-left: 1.5em;
+    margin-bottom: 1em;
+  }
+  .blog-content ul {
+    list-style: disc;
+  }
+  .blog-content ol {
+    list-style: decimal;
+  }
+  .blog-content li {
+    margin-bottom: 0.25em;
+  }
+  .blog-content pre {
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1.5em 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  .blog-content pre,
+  .blog-content pre code {
+    font-family:
+      'JetBrains Mono',
+      ui-monospace,
+      'SF Mono',
+      'Fira Code',
+      Menlo,
+      Consolas,
+      monospace;
+  }
+  .blog-content :not(pre) > code {
+    font-family:
+      'JetBrains Mono',
+      ui-monospace,
+      'SF Mono',
+      'Fira Code',
+      Menlo,
+      Consolas,
+      monospace;
+    font-size: 0.875em;
+    background-color: rgba(0, 0, 0, 0.06);
+    padding: 0.15em 0.4em;
+    border-radius: 6px;
+  }
+  .dark .blog-content :not(pre) > code {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .blog-content blockquote {
+    border-left: 3px solid #68b8b8;
+    padding-left: 1em;
+    color: #666666;
+    margin: 1.5em 0;
+  }
+  .dark .blog-content blockquote {
+    color: #a0a0a0;
+  }
+  .blog-content img {
+    border-radius: 12px;
+    margin: 1.5em 0;
+  }
+  .blog-content hr {
+    border-color: rgba(0, 0, 0, 0.1);
+    margin: 2em 0;
+  }
+}
+
+/* Shiki 双主题：深色模式下应用 dark 主题变量（配合 html.dark class） */
+html.dark .astro-code,
+html.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+/* 滚动进入视口渐显 */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 弹窗打开时锁定页面滚动 */
+.modal-open {
+  overflow: hidden;
+}
+
+/* 博客标签过滤按钮 */
+.filter-btn {
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 0.3rem 0.9rem;
+  font-size: 0.875rem;
+  color: #666666;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+.dark .filter-btn {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #a0a0a0;
+}
+.filter-btn:hover {
+  border-color: #446688;
+  color: #446688;
+}
+.filter-btn.filter-active {
+  background-color: #446688;
+  border-color: #446688;
+  color: #ffffff;
+}
+
+/* 尊重系统「减少动态效果」：关闭滚动渐显与 hover 上浮 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .card-hover,
+  .card-hover:hover {
+    transform: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+}

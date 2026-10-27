@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Skills from '../components/Skills.astro';
+import Projects from '../components/Projects.astro';
+import BlogPreview from '../components/BlogPreview.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title={`${site.name} · 个人作品集`}
+  description={site.slogan}
+  ogTitle={`${site.name} · 个人作品集`}
+>
+  <Hero />
+  <About />
+  <Skills />
+  <Projects />
+  <BlogPreview />
+</BaseLayout>

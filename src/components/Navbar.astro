@@ -1,0 +1,108 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<header
+  id="navbar"
+  class="fixed top-0 left-0 right-0 z-50 transition-colors duration-300"
+>
+  <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+    <a href="/" class="text-lg font-semibold hover:text-primary transition-colors">
+      李鑫志
+    </a>
+
+    <!-- 桌面端导航 -->
+    <div class="hidden items-center gap-8 md:flex">
+      <a href="/#about" class="text-sm hover:text-primary transition-colors">关于我</a>
+      <a href="/#skills" class="text-sm hover:text-primary transition-colors">技能</a>
+      <a href="/#projects" class="text-sm hover:text-primary transition-colors">项目</a>
+      <a href="/blog" class="text-sm hover:text-primary transition-colors">博客</a>
+      <ThemeToggle />
+    </div>
+
+    <!-- 移动端：主题切换 + 汉堡按钮 -->
+    <div class="flex items-center gap-4 md:hidden">
+      <ThemeToggle />
+      <button
+        id="menu-btn"
+        type="button"
+        aria-label="打开菜单"
+        aria-expanded="false"
+        class="p-2"
+      >
+        <svg
+          id="menu-icon-open"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="h-6 w-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          />
+        </svg>
+        <svg
+          id="menu-icon-close"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="hidden h-6 w-6"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 移动端下拉菜单 -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden border-t border-light-border dark:border-dark-border bg-light-bg/95 dark:bg-dark-bg/95 backdrop-blur-md"
+  >
+    <div class="flex flex-col gap-4 px-6 py-4">
+      <a href="/#about" class="text-base hover:text-primary transition-colors">关于我</a>
+      <a href="/#skills" class="text-base hover:text-primary transition-colors">技能</a>
+      <a href="/#projects" class="text-base hover:text-primary transition-colors">项目</a>
+      <a href="/blog" class="text-base hover:text-primary transition-colors">博客</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  // 滚动后给导航栏加毛玻璃背景
+  const navbar = document.getElementById('navbar');
+  const onScroll = () => {
+    navbar.classList.toggle('nav-blur', window.scrollY > 10);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // 移动端菜单开关
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  function closeMenu() {
+    mobileMenu.classList.add('hidden');
+    iconOpen.classList.remove('hidden');
+    iconClose.classList.add('hidden');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  menuBtn.addEventListener('click', () => {
+    const wasHidden = mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden');
+    iconOpen.classList.toggle('hidden', !wasHidden);
+    iconClose.classList.toggle('hidden', wasHidden);
+    menuBtn.setAttribute('aria-expanded', String(wasHidden));
+  });
+
+  mobileMenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+</script>

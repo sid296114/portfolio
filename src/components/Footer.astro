@@ -1,0 +1,17 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-20 border-t border-light-border dark:border-dark-border">
+  <div
+    class="mx-auto flex max-w-5xl flex-col items-center gap-3 px-6 py-10 text-center"
+  >
+    <p class="text-sm text-light-text-secondary dark:text-dark-text-secondary">
+      联系邮箱：<span class="select-all">{site.emailObfuscated}</span>
+    </p>
+    <p class="text-sm text-light-text-secondary dark:text-dark-text-secondary">
+      © {year} {site.name} · 用 Astro 构建
+    </p>
+  </div>
+</footer>

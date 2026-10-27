@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { site } from '../../data/site';
+
+const posts = (await getCollection('blog')).sort((a, b) =>
+  b.data.date.localeCompare(a.data.date),
+);
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags))];
+---
+
+<BaseLayout
+  title={`博客 · ${site.name}`}
+  description="记录学习笔记、项目踩坑、硬件调试与大模型实验心得"
+>
+  <section class="mx-auto max-w-5xl px-6 py-24">
+    <h1 class="reveal mb-2 text-3xl font-bold md:text-4xl">博客笔记</h1>
+    <p class="reveal mb-8 text-light-text-secondary dark:text-dark-text-secondary">
+      记录学习笔记、项目踩坑、硬件调试与大模型实验心得
+    </p>
+
+    <!-- 标签过滤（粗略归类） -->
+    <div class="reveal mb-8 flex flex-wrap gap-2">
+      <button type="button" data-filter="all" class="filter-btn filter-active">全部</button>
+      {
+        allTags.map((tag) => (
+          <button type="button" data-filter={tag} class="filter-btn">{tag}</button>
+        ))
+      }
+    </div>
+
+    <!-- 文章卡片列表 -->
+    <div class="reveal grid grid-cols-1 gap-6 md:grid-cols-2">
+      {posts.map((post) => <BlogCard post={post} />)}
+    </div>
+  </section>
+
+  <script>
+    // 按标签过滤文章卡片
+    const buttons = document.querySelectorAll('[data-filter]');
+    const cards = document.querySelectorAll('.post-card');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const f = btn.dataset.filter;
+        buttons.forEach((b) => b.classList.toggle('filter-active', b === btn));
+        cards.forEach((card) => {
+          const tags = (card.dataset.tags || '').split(',');
+          const show = f === 'all' || tags.includes(f);
+          card.classList.toggle('hidden', !show);
+        });
+      });
+    });
+  </script>
+</BaseLayout>

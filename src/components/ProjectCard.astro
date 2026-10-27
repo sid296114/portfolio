@@ -1,0 +1,38 @@
+---
+import type { Project } from '../data/projects';
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+---
+
+<article
+  class="card-hover overflow-hidden rounded-card border border-light-border bg-light-card dark:border-dark-border dark:bg-dark-card"
+>
+  <img
+    src={project.thumbnail}
+    alt={`${project.name} 项目缩略图`}
+    loading="lazy"
+    class="aspect-video w-full object-cover"
+  />
+  <div class="p-5">
+    <h3 class="mb-2 text-lg font-semibold">{project.name}</h3>
+    <p class="mb-4 text-sm text-light-text-secondary dark:text-dark-text-secondary">
+      {project.description}
+    </p>
+    <div class="mb-4 flex flex-wrap gap-2">
+      {
+        project.tags.map((tag) => (
+          <span class="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs text-primary">{tag}</span>
+        ))
+      }
+    </div>
+    <button
+      type="button"
+      data-project-id={project.id}
+      class="text-sm font-medium text-primary hover:text-primary-hover transition-colors"
+    >
+      查看详情 →
+    </button>
+  </div>
+</article>

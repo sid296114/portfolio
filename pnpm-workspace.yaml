@@ -1,0 +1,4 @@
+# pnpm 配置：允许执行构建脚本的原生依赖（v11+ 用 allowBuilds 替代 onlyBuiltDependencies）
+allowBuilds:
+  esbuild: true
+  sharp: true

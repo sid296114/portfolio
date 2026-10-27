@@ -1,0 +1,16 @@
+---
+import { site } from '../data/site';
+---
+
+<section class="flex min-h-[85vh] items-center justify-center py-24">
+  <div class="reveal mx-auto max-w-2xl px-6 text-center">
+    <p class="mb-4 text-sm font-medium text-accent">{site.role}</p>
+    <h1 class="mb-4 text-4xl font-bold md:text-5xl">{site.name}</h1>
+    <p class="mb-6 text-lg text-light-text-secondary dark:text-dark-text-secondary md:text-xl">
+      {site.slogan}
+    </p>
+    <p class="text-base text-light-text-secondary dark:text-dark-text-secondary">
+      {site.lead}
+    </p>
+  </div>
+</section>

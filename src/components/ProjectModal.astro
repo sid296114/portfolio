@@ -1,0 +1,36 @@
+<!-- 项目详情弹窗（由 Projects.astro 的脚本填充内容） -->
+<div
+  id="project-modal"
+  class="fixed inset-0 z-[60] hidden items-center justify-center p-4"
+>
+  <div id="modal-backdrop" class="absolute inset-0 bg-black/50"></div>
+  <div
+    class="relative z-10 w-full max-w-lg rounded-card bg-light-card p-6 shadow-xl dark:bg-dark-card"
+  >
+    <div class="mb-4 flex items-start justify-between gap-4">
+      <h3 id="modal-title" class="text-xl font-semibold"></h3>
+      <button
+        id="modal-close"
+        type="button"
+        aria-label="关闭详情"
+        class="p-1 hover:opacity-70 transition-opacity"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="h-5 w-5"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div id="modal-tags" class="mb-4 flex flex-wrap gap-2"></div>
+    <p
+      id="modal-detail"
+      class="text-sm leading-relaxed text-light-text-secondary dark:text-dark-text-secondary"
+    ></p>
+  </div>
+</div>

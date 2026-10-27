@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import BlogCard from './BlogCard.astro';
+
+// 首页预览取最近 3 篇
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.localeCompare(a.data.date))
+  .slice(0, 3);
+---
+
+<section id="blog" class="py-20 md:py-28">
+  <div class="reveal mx-auto max-w-5xl px-6">
+    <div class="mb-10 flex items-end justify-between gap-4">
+      <div>
+        <h2 class="mb-2 text-2xl font-bold md:text-3xl">博客笔记</h2>
+        <p class="text-light-text-secondary dark:text-dark-text-secondary">
+          记录学习笔记、项目踩坑、硬件调试与大模型实验心得
+        </p>
+      </div>
+      <a
+        href="/blog"
+        class="shrink-0 text-sm font-medium text-primary hover:text-primary-hover transition-colors"
+      >
+        查看全部 →
+      </a>
+    </div>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      {posts.map((post) => <BlogCard post={post} />)}
+    </div>
+  </div>
+</section>

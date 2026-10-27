@@ -1,0 +1,60 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import ProjectModal from './ProjectModal.astro';
+import { projects } from '../data/projects';
+---
+
+<section id="projects" class="py-20 md:py-28">
+  <div class="reveal mx-auto max-w-5xl px-6">
+    <h2 class="mb-4 text-2xl font-bold md:text-3xl">项目作品</h2>
+    <p class="mb-10 text-light-text-secondary dark:text-dark-text-secondary">
+      动手落地的一些项目
+    </p>
+    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </div>
+  <ProjectModal />
+</section>
+
+<script define:vars={{ projectList: projects }}>
+  // 项目详情弹窗交互
+  const modal = document.getElementById('project-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalTags = document.getElementById('modal-tags');
+  const modalDetail = document.getElementById('modal-detail');
+  const modalClose = document.getElementById('modal-close');
+  const modalBackdrop = document.getElementById('modal-backdrop');
+
+  function openModal(id) {
+    const p = projectList.find((item) => item.id === id);
+    if (!p) return;
+    modalTitle.textContent = p.name;
+    modalTags.innerHTML = '';
+    p.tags.forEach((tag) => {
+      const span = document.createElement('span');
+      span.className = 'rounded-full bg-primary/10 px-2.5 py-0.5 text-xs text-primary';
+      span.textContent = tag;
+      modalTags.appendChild(span);
+    });
+    modalDetail.textContent = p.detail;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.classList.remove('modal-open');
+  }
+
+  document.querySelectorAll('[data-project-id]').forEach((btn) => {
+    btn.addEventListener('click', () => openModal(btn.dataset.projectId));
+  });
+  modalClose.addEventListener('click', closeModal);
+  modalBackdrop.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
