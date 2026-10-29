@@ -1,7 +1,7 @@
 # 启动内容管理后台后端（FastAPI）
-# 默认端口 8002，口令见环境变量 ADMIN_TOKEN（默认 admin123）
+# 默认端口 8002（云平台可设环境变量 PORT），口令见环境变量 ADMIN_TOKEN（默认 admin123）
 param(
-    [int]$Port = 8002
+    [int]$Port = $(if ($env:PORT) { [int]$env:PORT } else { 8002 })
 )
 $root = Split-Path -Parent $PSScriptRoot
 $venv = Join-Path $root ".venv"

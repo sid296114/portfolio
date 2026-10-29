@@ -8,6 +8,7 @@ const error = ref('')
 const editing = ref(false)
 const form = ref(emptyForm())
 const tagsText = ref('')
+const syncMsg = ref('')
 
 function emptyForm() {
   return { slug: '', title: '', date: '', tags: [], summary: '', content: '' }
@@ -39,14 +40,19 @@ function openEdit(p) {
 }
 async function save() {
   error.value = ''
+  syncMsg.value = ''
   try {
     form.value.tags = tagsText.value.split(/[,，、\s]+/).filter(Boolean)
+    let res
     if (form.value.slug) {
-      await api.updatePost(form.value.slug, form.value)
+      res = await api.updatePost(form.value.slug, form.value)
     } else {
-      await api.createPost(form.value)
+      res = await api.createPost(form.value)
     }
     editing.value = false
+    if (res && res.sync && !res.sync.ok) {
+      syncMsg.value = `已保存，但 GitHub 同步失败：${res.sync.message}`
+    }
     await load()
   } catch (e) {
     error.value = e.message
@@ -126,6 +132,7 @@ onMounted(load)
             <textarea v-model="form.content" rows="14" class="w-full rounded-lg border border-[#d8d4ca] bg-[#fbfaf7] px-3 py-2 font-mono text-sm outline-none focus:border-[#446688]"></textarea>
           </label>
           <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
+          <p v-if="syncMsg" class="text-sm text-amber-600">{{ syncMsg }}</p>
         </div>
         <div class="mt-5 flex justify-end gap-2">
           <button class="rounded-lg border border-[#d8d4ca] px-4 py-2 text-sm text-[#555] hover:bg-[#fbfaf7]" @click="editing = false">取消</button>

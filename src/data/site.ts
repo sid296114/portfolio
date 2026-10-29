@@ -12,7 +12,7 @@ export interface SkillGroup {
 }
 
 export const site = {
-  name: '李鑫志',
+  name: '李鑫',
   role: '物联网 · 嵌入式 · AI',
   slogan: '一边焊板子，一边调模型；游走在硬件与 AI 的交界',
   lead: '物联网工程专业，专注嵌入式系统与大模型技术实践，喜欢动手落地工程。',

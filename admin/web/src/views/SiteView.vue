@@ -7,6 +7,7 @@ const loading = ref(true)
 const saving = ref(false)
 const error = ref('')
 const saved = ref(false)
+const syncMsg = ref('')
 const ICONS = [
   { value: 'chip', label: '芯片（嵌入式）' },
   { value: 'ai', label: 'AI（大模型）' },
@@ -52,11 +53,17 @@ function removeSkill(g, i) {
 async function save() {
   saving.value = true
   saved.value = false
+  syncMsg.value = ''
   error.value = ''
   try {
-    await api.saveSite(site.value)
+    const res = await api.saveSite(site.value)
     saved.value = true
-    setTimeout(() => (saved.value = false), 2500)
+    if (res && res.sync) {
+      syncMsg.value = res.sync.ok
+        ? '已保存，改动已自动同步到 GitHub，线上稍后自动更新 ✓'
+        : `已保存，但 GitHub 同步失败：${res.sync.message}`
+    }
+    setTimeout(() => (saved.value = false), 3500)
   } catch (e) {
     error.value = e.message
   } finally {
@@ -150,6 +157,7 @@ onMounted(load)
         @click="save"
       >{{ saving ? '保存中…' : '保存全部修改' }}</button>
       <span v-if="saved" class="text-sm text-green-600">已保存，Astro 热更新会自动生效 ✓</span>
+      <span v-if="syncMsg" class="text-sm text-[#446688]">{{ syncMsg }}</span>
       <span v-if="error" class="text-sm text-red-600">{{ error }}</span>
     </div>
   </div>
