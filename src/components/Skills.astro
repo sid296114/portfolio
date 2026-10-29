@@ -13,32 +13,41 @@ const icons: Record<SkillGroup['icon'], string> = {
 
 <section id="skills" class="py-20 md:py-28">
   <div class="reveal mx-auto max-w-5xl px-6">
-    <h2 class="mb-4 text-2xl font-bold md:text-3xl">技能栈</h2>
-    <p class="mb-10 text-light-text-secondary dark:text-dark-text-secondary">
-      物联网与 AI 交叉方向的技能积累
-    </p>
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div class="mb-10 flex items-end justify-between">
+      <div>
+        <h2 class="text-2xl font-bold md:text-3xl">技术栈</h2>
+        <p class="mt-2 text-light-text-secondary dark:text-dark-text-secondary">
+          物联网与 AI 交叉方向的技能积累
+        </p>
+      </div>
+    </div>
+
+    <div class="space-y-8">
       {
         site.skillGroups.map((group) => (
-          <div
-            class="card-hover rounded-card border border-light-border bg-light-card p-6 dark:border-dark-border dark:bg-dark-card"
-          >
+          <div>
             <div class="mb-4 flex items-center gap-3">
               <span class="text-primary" set:html={icons[group.icon]} />
               <h3 class="text-lg font-semibold">{group.title}</h3>
+              <span class="text-sm text-light-text-secondary dark:text-dark-text-secondary">
+                {group.skills.length} 项
+              </span>
             </div>
-            <ul class="flex flex-wrap gap-2">
+            <!-- 技能块墙（参考主页风格：圆角浅色块） -->
+            <div class="flex flex-wrap gap-3">
               {
                 group.skills.map((skill) => (
-                  <li
-                    class="flex items-center gap-1.5 rounded-full border border-light-border px-3 py-1 text-sm dark:border-dark-border"
+                  <div
+                    class="flex items-center gap-2 rounded-xl border border-light-border bg-light-card px-4 py-2.5 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg dark:border-dark-border dark:bg-dark-card"
                   >
-                    <span>{skill.name}</span>
-                    <span class="text-xs text-accent">{skill.level}</span>
-                  </li>
+                    <span class="text-sm font-medium">{skill.name}</span>
+                    <span class="rounded-full bg-primary/10 px-2 py-0.5 text-xs text-primary">
+                      {skill.level}
+                    </span>
+                  </div>
                 ))
               }
-            </ul>
+            </div>
           </div>
         ))
       }

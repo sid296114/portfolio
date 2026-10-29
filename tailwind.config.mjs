@@ -18,7 +18,7 @@ export default {
           text: '#333333',
           'text-secondary': '#666666',
           card: '#ffffff',
-          border: '#e5e0d6',
+          border: '#ffffff',
         },
         // 深色模式
         dark: {
@@ -26,7 +26,7 @@ export default {
           text: '#e6e6e6',
           'text-secondary': '#a0a0a0',
           card: '#2a3038',
-          border: '#3a424c',
+          border: '#ffffff',
         },
       },
       borderRadius: {

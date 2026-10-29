@@ -48,14 +48,14 @@ const currentView = computed(() => {
   </div>
 
   <div v-else class="min-h-screen">
-    <!-- 顶栏 -->
-    <header class="sticky top-0 z-10 bg-[#446688] text-white shadow-sm">
+    <!-- 顶栏（星夜深蓝） -->
+    <header class="sticky top-0 z-10 bg-gradient-to-r from-[#0a1830] via-[#12305e] to-[#0a1830] text-white shadow-sm">
       <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <div class="flex items-center gap-2">
           <span class="text-lg font-semibold">Portfolio 内容管理</span>
           <span class="rounded-full bg-white/15 px-2 py-0.5 text-xs">本地后台</span>
         </div>
-        <button class="rounded-lg px-3 py-1.5 text-sm hover:bg-white/15" @click="logout">
+        <button class="rounded-lg px-3 py-1.5 text-sm text-white/85 hover:bg-white/15 hover:text-white" @click="logout">
           退出登录
         </button>
       </div>
@@ -76,7 +76,7 @@ const currentView = computed(() => {
         class="rounded-lg px-4 py-2 text-sm font-medium transition"
       >博客</a>
       <a
-        href="/" target="_blank" class="ml-auto rounded-lg bg-white/80 px-4 py-2 text-sm font-medium text-[#446688] hover:bg-white"
+        href="/" target="_blank" class="ml-auto rounded-lg bg-[#12305e] px-4 py-2 text-sm font-medium text-white hover:bg-[#1a4078]"
       >查看站点 ↗</a>
     </nav>
 

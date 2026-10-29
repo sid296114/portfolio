@@ -1,16 +1,80 @@
 ---
 import { site } from '../data/site';
+import { projects } from '../data/projects';
+
+// 博客文章数量（读取 content/blog 目录）
+const posts = await Astro.glob('../content/blog/*.md');
+// 技能总数（展平所有分组）
+const skillCount = site.skillGroups.reduce((n, g) => n + g.skills.length, 0);
+
+// 首屏统计：全部来自真实数据
+const stats = [
+  { value: String(projects.length), label: '项目作品' },
+  { value: String(posts.length), label: '博客文章' },
+  { value: String(skillCount), label: '技术技能' },
+  { value: String(site.skillGroups.length), label: '技能领域' },
+];
+const initial = site.name.slice(0, 1);
 ---
 
-<section class="flex min-h-[85vh] items-center justify-center py-24">
-  <div class="reveal mx-auto max-w-2xl px-6 text-center">
-    <p class="mb-4 text-sm font-medium text-accent">{site.role}</p>
-    <h1 class="mb-4 text-4xl font-bold md:text-5xl">{site.name}</h1>
-    <p class="mb-6 text-lg text-light-text-secondary dark:text-dark-text-secondary md:text-xl">
+<section class="relative overflow-hidden">
+  <!-- 星夜背景（梵高《星月夜》，公有领域画作） -->
+  <img
+    src="https://aka.doubaocdn.com/s/Im8VOBJV30"
+    alt=""
+    aria-hidden="true"
+    loading="eager"
+    class="absolute inset-0 h-full w-full object-cover"
+  />
+  <!-- 深蓝遮罩 + 底部过渡到页面背景色 -->
+  <div class="absolute inset-0 bg-[#0a1830]/60"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-[#0a1830]/75 via-[#0a1830]/25 to-light-bg dark:to-dark-bg"></div>
+
+  <div
+    class="relative mx-auto flex min-h-[92vh] max-w-4xl flex-col items-center justify-center px-6 py-28 text-center"
+  >
+    <!-- 圆形头像（首字母） -->
+    <div
+      class="mb-6 flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-[#2b5397] via-[#1d3a6e] to-[#12305e] text-5xl font-bold text-white shadow-2xl ring-4 ring-white/30"
+    >
+      {initial}
+    </div>
+
+    <p class="mb-3 text-sm font-medium tracking-widest text-[#9fd8e8]">Hi，我是</p>
+    <h1 class="mb-3 text-5xl font-bold text-white drop-shadow md:text-6xl">{site.name}</h1>
+    <p class="mb-5 text-xl font-medium text-[#f0d488] md:text-2xl">{site.role}</p>
+    <p class="mb-8 max-w-xl text-base leading-relaxed text-white/85 md:text-lg">
       {site.slogan}
     </p>
-    <p class="text-base text-light-text-secondary dark:text-dark-text-secondary">
-      {site.lead}
-    </p>
+
+    <!-- 操作按钮 -->
+    <div class="flex flex-wrap justify-center gap-3">
+      <a
+        href="https://github.com/sid296114"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-[#12305e] shadow-lg transition hover:bg-[#e8edf5]"
+      >
+        访问 GitHub
+      </a>
+      <a
+        href={`mailto:${site.email}`}
+        class="rounded-full border border-white/60 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10"
+      >
+        发送邮件
+      </a>
+    </div>
+
+    <!-- 统计数字 -->
+    <dl class="mt-12 grid w-full max-w-2xl grid-cols-2 gap-4 sm:grid-cols-4">
+      {
+        stats.map((s) => (
+          <div class="rounded-2xl border border-white/40 bg-white/10 px-6 py-4 backdrop-blur">
+            <dt class="text-2xl font-bold text-white">{s.value}</dt>
+            <dd class="mt-1 text-sm text-white/80">{s.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
   </div>
 </section>
